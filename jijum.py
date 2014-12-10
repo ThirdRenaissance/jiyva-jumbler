@@ -413,9 +413,9 @@ def GenerateChallenge():
 		return "Venture deeper into the dungeon."
 	
 	# same random output for any given day
-	#random.seed(str(datetime.date.today()))
+	random.seed(str(datetime.date.today()))
 	# for testing:
-	random.seed()
+	#random.seed()
 	
 	# Compile a list with all spec/backgr/gods in the format "adjustedcore type name"
 	ChallengeList = []
