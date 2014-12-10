@@ -29,6 +29,10 @@ MinGames = 5
 # Display at least this many stat lines, regardless of MinGames
 MinDisplay = 10
 
+# Stat sorting, valid options:
+# "games", "totalscore", "highscore", "xl", "runes"
+StatSort = "games"
+
 # Show recent scores in a graph
 ShowGraph = True
 
@@ -492,6 +496,17 @@ statlist = ([SpeciesCount, SpeciesTotalScore, SpeciesHighScore, SpeciesMaxXl, Sp
 	[GodCount, GodTotalScore, GodHighScore, GodMaxXl, GodMaxRune], 
 	[CharacterCount, CharacterTotalScore, CharacterHighScore, CharacterMaxXl, CharacterMaxRune])
 
+if StatSort == "totalscore":
+	sortkey = 1
+elif StatSort == "highscore":
+	sortkey = 2
+elif StatSort == "xl":
+	sortkey = 3
+elif StatSort == "runes":
+	sortkey = 4
+else:
+	sortkey = 0
+
 # Stat Loop
 for i in range(0, 4):
 	print(headerformat.format(headertitle[i], "GAMES", "TOTAL SCORE", 
@@ -499,7 +514,7 @@ for i in range(0, 4):
 		"HiXL", "HiRU", "WINS", 
 		w1=w1,w2=w2,w3=w3,w4=w4,w5=w5,w6=w6,w7=w7,w8=w8))
 	loop = 0
-	for key in sorted(statlist[i][0], key=statlist[i][0].get, reverse=True):
+	for key in sorted(statlist[i][0], key=statlist[i][sortkey].get, reverse=True):
 		if statlist[i][0][key] >= MinGames or loop < MinDisplay:
 			print(statsformat.format(key, statlist[i][0][key], statlist[i][1][key], 
 				statlist[i][2][key], statlist[i][1][key] / statlist[i][0][key], 
