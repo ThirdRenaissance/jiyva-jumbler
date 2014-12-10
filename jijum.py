@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Jiyva Jumbler - stats for Dungeon Crawl Stone Soup logs
+# Jiyva Jumbler - Stats for Dungeon Crawl Stone Soup Logs
 # Copyright (C) 2014 Third Renaissance
 #
 # This program is free software: you can redistribute it and/or modify
