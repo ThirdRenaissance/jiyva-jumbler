@@ -64,6 +64,7 @@ if os.path.isfile(CrawlLogFile) == False:
 ProgramVersion = "0.1"
 
 GameCount = 0
+WinCount = 0
 DurationTotal = 0
 DurationList = []
 TurnTotal = 0
@@ -81,15 +82,19 @@ KillerList = []
 SpeciesCount = {}
 SpeciesTotalScore = {}
 SpeciesHighScore = {}
+SpeciesTotalWins = {}
 BackgroundCount = {}
 BackgroundTotalScore = {}
 BackgroundHighScore = {}
+BackgroundTotalWins = {}
 CharacterCount = {}
 CharacterTotalScore = {}
 CharacterHighScore = {}
+CharacterTotalWins = {}
 GodCount = {}
 GodTotalScore = {}
 GodHighScore = {}
+GodTotalWins = {}
 XlTotal = 0
 XlList = []
 XlSpecies = {}
@@ -257,6 +262,40 @@ for line in fileinput.input(CrawlLogFile):
 			XlBackground[background] = XlBackground[background] + xl
 		else:
 			XlBackground[background] = xl
+		
+		# Wins
+		win_search = re.search('(?<=ktyp=)winning(?=:)', line)
+		if win_search == None:
+			if not species in SpeciesTotalWins:
+				SpeciesTotalWins[species] = 0
+			if not background in BackgroundTotalWins:
+				BackgroundTotalWins[background] = 0
+			if not character in CharacterTotalWins:
+				CharacterTotalWins[character] = 0
+			if not god in GodTotalWins:
+				GodTotalWins[god] = 0
+		else:
+			WinCount += 1
+			
+			if species in SpeciesTotalWins:
+				SpeciesTotalWins[species] += 1
+			else:
+				SpeciesTotalWins[species] = 1
+			
+			if background in BackgroundTotalWins:
+				BackgroundTotalWins[background] += 1
+			else:
+				BackgroundTotalWins[background] = 1
+			
+			if character in CharacterTotalWins:
+				CharacterTotalWins[character] += 1
+			else:
+				CharacterTotalWins[character] = 1
+			
+			if god in GodTotalWins:
+				GodTotalWins[god] += 1
+			else:
+				GodTotalWins[god] = 1
 		
 		# Graph
 		endtime_search = re.search('(?<=end=)[0-9]+(?=[^0-9])', line)
@@ -475,6 +514,7 @@ print("Log file: {} ({} games)".format(CrawlLogFile, GameCount))
 print("")
 print("{:{w1}}{:>{w}}{:>{w}}{:>{w}}{:>{w}}".format("", "TOTAL", "HIGH", "AVERAGE", "MEDIAN", w1=owidth-1, w=owidth))
 print("{:{w1}}{:{w},d}{:{w},d}{:{w},.0f}{:{w},.0f}".format("Score", ScoreTotal, max(ScoreList), stats.mean(ScoreList), stats.median(ScoreList), w1=owidth-1, w=owidth))
+print("{:{w1}}{:{w},d}".format("Wins", WinCount, "", "", "", w1=owidth-1, w=owidth))
 print("{:{w1}}{:{w},d}{:{w},d}{:{w},.2f}{:{w},.2f}".format("Runes", RuneTotal, max(RuneList), stats.mean(RuneList), stats.median(RuneList), w1=owidth-1, w=owidth))
 print("{:{w1}}{:{w},d}{:{w},d}{:{w}.1f}{:{w}.1f}".format("XL", XlTotal, max(XlList), stats.mean(XlList), stats.median(XlList), w1=owidth-1, w=owidth))
 print("{:{w1}}{:{w},d}{:{w},d}{:{w}.1f}{:{w}.1f}".format("Depth", DepthTotal, max(DepthList), stats.mean(DepthList), stats.median(DepthList), w1=owidth-1, w=owidth))
@@ -493,12 +533,12 @@ w6 = 5  # hixl
 w7 = 5  # hirunes
 w8 = 5  # wins
 headerformat = "{:{w1}}{:>{w2}}{:>{w3}}{:>{w4}}{:>{w5}}{:>{w6}}{:>{w7}}{:>{w8}}"
-statsformat = "{:{w1}}{:{w2},d}{:{w3},d}{:{w4},d}{:{w5},.0f}{:{w6}}{:{w7}}"
+statsformat = "{:{w1}}{:{w2},d}{:{w3},d}{:{w4},d}{:{w5},.0f}{:{w6}}{:{w7}}{:{w8}}"
 headertitle = ["SPECIES", "BACKGROUND", "GOD", "CHARACTER"]
-statlist = ([SpeciesCount, SpeciesTotalScore, SpeciesHighScore, SpeciesMaxXl, SpeciesMaxRune], 
-	[BackgroundCount, BackgroundTotalScore, BackgroundHighScore, BackgroundMaxXl, BackgroundMaxRune], 
-	[GodCount, GodTotalScore, GodHighScore, GodMaxXl, GodMaxRune], 
-	[CharacterCount, CharacterTotalScore, CharacterHighScore, CharacterMaxXl, CharacterMaxRune])
+statlist = ([SpeciesCount, SpeciesTotalScore, SpeciesHighScore, SpeciesMaxXl, SpeciesMaxRune, SpeciesTotalWins], 
+	[BackgroundCount, BackgroundTotalScore, BackgroundHighScore, BackgroundMaxXl, BackgroundMaxRune, BackgroundTotalWins], 
+	[GodCount, GodTotalScore, GodHighScore, GodMaxXl, GodMaxRune, GodTotalWins], 
+	[CharacterCount, CharacterTotalScore, CharacterHighScore, CharacterMaxXl, CharacterMaxRune, CharacterTotalWins])
 
 if StatSort == "totalscore":
 	sortkey = 1
@@ -523,6 +563,7 @@ for i in range(0, 4):
 			print(statsformat.format(key, statlist[i][0][key], statlist[i][1][key], 
 				statlist[i][2][key], statlist[i][1][key] / statlist[i][0][key], 
 				statlist[i][3][key], IfNotZero(statlist[i][4][key]), 
+				IfNotZero(statlist[i][5][key]), 
 				w1=w1,w2=w2,w3=w3,w4=w4,w5=w5,w6=w6,w7=w7,w8=w8))
 			loop += 1
 	print()
