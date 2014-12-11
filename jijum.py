@@ -465,17 +465,21 @@ def GenerateChallenge():
 	return "{} {} and {}.".format(part1_action, part1_object, part2_action)
 
 
-# Output
-print("Jiyva Jumbler {} - stats for Dungeon Crawl Stone Soup logs".format(ProgramVersion))
+### Output ###
+
+# Overview
+
+owidth = 16
+print("Jiyva Jumbler {} - Stats for Dungeon Crawl Stone Soup Logs".format(ProgramVersion))
 print("Log file: {} ({} games)".format(CrawlLogFile, GameCount))
 print("")
-print("{:15}{:>15}{:>15}{:>15}{:>15}".format("", "TOTAL", "HIGH", "AVERAGE", "MEDIAN"))
-print("{:15}{:15,d}{:15,d}{:15,.0f}{:15,.0f}".format("Score", ScoreTotal, max(ScoreList), stats.mean(ScoreList), stats.median(ScoreList)))
-print("{:15}{:15,d}{:15,d}{:15,.2f}{:15,.2f}".format("Runes", RuneTotal, max(RuneList), stats.mean(RuneList), stats.median(RuneList)))
-print("{:15}{:15,d}{:15,d}{:15.1f}{:15.1f}".format("XL", XlTotal, max(XlList), stats.mean(XlList), stats.median(XlList)))
-print("{:15}{:15,d}{:15,d}{:15.1f}{:15.1f}".format("Depth", DepthTotal, max(DepthList), stats.mean(DepthList), stats.median(DepthList)))
-print("{:15}{:15,d}{:15,d}{:15,.0f}{:15,.0f}".format("Turns", TurnTotal, max(TurnList), stats.mean(TurnList), stats.median(TurnList)))
-print("{:15}{:>15}{:>15}{:>15}{:>15}".format("Time (D:hh:mm)", DurationConverter(DurationTotal), DurationConverter(max(DurationList)), DurationConverter(stats.mean(DurationList)), DurationConverter(stats.median(DurationList))))
+print("{:{w1}}{:>{w}}{:>{w}}{:>{w}}{:>{w}}".format("", "TOTAL", "HIGH", "AVERAGE", "MEDIAN", w1=owidth-1, w=owidth))
+print("{:{w1}}{:{w},d}{:{w},d}{:{w},.0f}{:{w},.0f}".format("Score", ScoreTotal, max(ScoreList), stats.mean(ScoreList), stats.median(ScoreList), w1=owidth-1, w=owidth))
+print("{:{w1}}{:{w},d}{:{w},d}{:{w},.2f}{:{w},.2f}".format("Runes", RuneTotal, max(RuneList), stats.mean(RuneList), stats.median(RuneList), w1=owidth-1, w=owidth))
+print("{:{w1}}{:{w},d}{:{w},d}{:{w}.1f}{:{w}.1f}".format("XL", XlTotal, max(XlList), stats.mean(XlList), stats.median(XlList), w1=owidth-1, w=owidth))
+print("{:{w1}}{:{w},d}{:{w},d}{:{w}.1f}{:{w}.1f}".format("Depth", DepthTotal, max(DepthList), stats.mean(DepthList), stats.median(DepthList), w1=owidth-1, w=owidth))
+print("{:{w1}}{:{w},d}{:{w},d}{:{w},.0f}{:{w},.0f}".format("Turns", TurnTotal, max(TurnList), stats.mean(TurnList), stats.median(TurnList), w1=owidth-1, w=owidth))
+print("{:{w1}}{:>{w}}{:>{w}}{:>{w}}{:>{w}}".format("Time (D:hh:mm)", DurationConverter(DurationTotal), DurationConverter(max(DurationList)), DurationConverter(stats.mean(DurationList)), DurationConverter(stats.median(DurationList)), w1=owidth-1, w=owidth))
 print()
 
 # Format constants
